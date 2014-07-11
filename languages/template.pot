@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-11 23:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: views/admin/plugins/rating-config-form.php:1
+msgid "Rating Widget"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:4
+msgid "Add To items/show Page"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:11
+msgid ""
+"If checked, the rating widget will be added to all item show pages via the "
+"hook."
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:17
+msgid "Add To items/browse Page"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:24
+msgid ""
+"If checked, the rating widget will be added to each record on the items/"
+"browse page via the hook."
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:29
+msgid "Rights and Roles"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:32
+msgid "Allow Public to Rate"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:39
+msgid "Allow everybody to rate or not."
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:45
+msgid "Roles that can Rate"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:67
+msgid "Privacy"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:70
+msgid "Level of Privacy"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:77 models/Rating.php:150
+msgid "Anonymous"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:78
+msgid "Hashed IP"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:79
+msgid "Clear IP"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:82
+msgid "Choose the level of privacy (default: hashed IP)."
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:83
+msgid ""
+"If anonymous, no check will be done when an unidentified visitor rates a "
+"record multiple times."
+msgstr ""
+
+#: views/shared/common/rating.php:11
+#, php-format
+msgid "(Rates: %s)"
+msgstr ""
+
+#: views/shared/common/rating.php:21
+msgid "My Rate:"
+msgstr ""
+
+#: views/shared/common/rating.php:28
+#, php-format
+msgid "Result: %s"
+msgstr ""
+
+#: views/shared/common/rating.php:30
+#, php-format
+msgid "Rates: %s"
+msgstr ""
+
+#: views/shared/common/rating.php:38
+msgid "Cancelled"
+msgstr ""
+
+#: views/shared/common/rating.php:38 views/shared/common/rating.php:40
+#, php-format
+msgid "My Rate: %s"
+msgstr ""
+
+#: views/shared/common/rating.php:43
+msgid "My Rate: Not rated"
+msgstr ""
+
+#: controllers/AjaxController.php:67
+msgid "Error. Retry later."
+msgstr ""
+
+#: RatingPlugin.php:199
+msgid "Rating"
+msgstr ""
+
+#: models/Rating.php:133
+msgid "Record is not correct."
+msgstr ""
