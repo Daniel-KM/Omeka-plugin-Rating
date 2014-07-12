@@ -62,24 +62,24 @@ echo common('rating-js');
 ```
 
 Rights are automatically managed. The javascript codes are managed separately to
-get a lower code, in particular in browse pages. $display is an array that
-contains parameters to choose the type of widget. Default is to show the average
-score of the record.
+get a lower code, in particular in browse pages. `$display` is an ordered array
+that contains parameters to choose the type of widget (see below). Default is to
+show the average score of the record.
 
 * Shortocodes
 
 [Shortcodes] are supported (Omeka 2.2 or above).
 
 ```
-[rating record_type='Item' record_id=1 display="result text, my rate"]
+[rating record_type='Item' record_id=1 display="score text, my rate"]
 ```
 
 Options are:
 - record_type (required): an Omeka record type , e.g. "Item" or "Collection".
 - record_id (required): the identifier of the record.
 - display: ordered comma separated options to choose the form of the widget:
-    - "result": visual average score and count of ratings for the record.
-    - "result text": same info, but without visual effect.
+    - "score": visual average score and count of ratings for the record.
+    - "score text": same info, but without visual effect.
     - "my rate": widget that allows user to rate the record (if allowed).
     - "my rate text": same info, but without visual effect.
 

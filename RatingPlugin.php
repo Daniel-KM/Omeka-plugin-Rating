@@ -197,7 +197,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
 
         $html = '<div class="panel">';
         $html .= '<h4>' . __('Rating') . '</h4>';
-        $html .= $view->getRatingWidget($item, array('result', 'my rate'));
+        $html .= $view->getRatingWidget($item, array('score', 'my rate'));
         $html .= '</div>';
         $html .= $view->partial('common/rating-js.php');
 
@@ -209,7 +209,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         $view = $args['view'];
         $item = $args['item'];
 
-        echo $view->getRatingWidget($item, array('result'));
+        echo $view->getRatingWidget($item, array('score'));
     }
 
     public function hookAdminItemsBrowseDetailedEach($args)
@@ -238,8 +238,8 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
 
         if (get_option('rating_add_to_items_show')) {
             $display = is_allowed('Rating_Rating', 'add')
-                ? array('result text', 'my rate')
-                : array('result');
+                ? array('score text', 'my rate')
+                : array('score');
             echo $view->getRatingWidget($item, $display);
             echo $view->partial('common/rating-js.php');
         }
@@ -251,7 +251,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['item'];
 
         if (get_option('rating_add_to_items_browse')) {
-            echo $view->getRatingWidget($item, array('result'));
+            echo $view->getRatingWidget($item, array('score'));
         }
     }
 

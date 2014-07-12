@@ -26,8 +26,8 @@ class Rating_View_Helper_GetRatingWidget extends Zend_View_Helper_Abstract
         // Set default display if needed.
         if (empty($display)) {
             $display = is_allowed('Rating_Rating', 'add')
-                ? array('result text', 'my rate')
-                : array('result');
+                ? array('score text', 'my rate')
+                : array('score');
         }
         // Check rights to rate.
         else {

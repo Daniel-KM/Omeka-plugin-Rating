@@ -3,8 +3,8 @@
 foreach ($display as $format):
     switch ($format):
 
-        case 'result': ?>
-    <div class="rateit-result">
+        case 'score': ?>
+    <div class="rateit-score">
         <span <?php
             $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', get_class($record), $record->id);
             echo $attributes; ?> data-rateit-value="<?php echo $average_score; ?>" data-rateit-readonly="true" class="rateit rateit-average"></span>
@@ -23,16 +23,16 @@ foreach ($display as $format):
     </div>
         <?php break;
 
-        case 'result text': ?>
-    <div class="rateit-result-text"><?php
-        echo __('Result: %s', '<span class="rateit-average">' . $average_score . '</span>');
+        case 'score text': ?>
+    <div class="rateit-score rateit-text"><?php
+        echo __('Score: %s', '<span class="rateit-average">' . $average_score . '</span>');
     ?><br /><?php
         echo __('Rates: %s', '<span class="rateit-count">' . $count_ratings . '</span>');
     ?></div>
         <?php break;
 
         case 'my rate text': ?>
-    <div class="rateit-myrate"><?php
+    <div class="rateit-myrate rateit-text"><?php
         if ($rating) :
             if (is_null($rating->score)):
                 echo __('My Rate: %s', __('Cancelled'));
