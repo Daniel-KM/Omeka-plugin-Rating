@@ -96,32 +96,8 @@ class Rating extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_In
     {
         $user = current_user();
         $this->user_id = is_object($user) ? $user->id : 0;
-        $this->ip = $this->_getRemoteIP();
+        $this->ip = get_view()->rating()->getRemoteIp();
         $this->user_agent = $this->_getUserAgent();
-    }
-
-    /**
-     * Get remote ip address. This check respects privacy settings.
-     *
-     * @todo Consolidate this function (see Rating model, Ajax controller, getRatingWidget).
-     *
-     * @return string
-     */
-    protected function _getRemoteIP()
-    {
-        $privacy = get_option('rating_privacy');
-        if ($privacy == 'anonymous') {
-            return '';
-        }
-
-        // Check if user is behind nginx.
-        $ip = isset($_SERVER['HTTP_X_REAL_IP'])
-            ? $_SERVER['HTTP_X_REAL_IP']
-            : $_SERVER['REMOTE_ADDR'];
-
-        return $privacy == 'clear'
-            ? $ip
-            : md5($ip);
     }
 
     /**

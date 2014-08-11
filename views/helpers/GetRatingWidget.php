@@ -18,10 +18,8 @@ class Rating_View_Helper_GetRatingWidget extends Zend_View_Helper_Abstract
             return '';
         }
 
-        $user = current_user();
-        $ip = $this->_getRemoteIP();
         $table = get_db()->getTable('Rating');
-        $rating = $table->findByRecordAndUserOrIP($record, $user, $ip);
+        $rating = $table->findByRecordAndCurrentUserOrIP($record);
 
         // Set default display if needed.
         if (empty($display)) {
@@ -86,28 +84,4 @@ class Rating_View_Helper_GetRatingWidget extends Zend_View_Helper_Abstract
 
         return null;
      }
-
-    /**
-     * Get remote ip address. This check respects privacy settings.
-     *
-     * @todo Consolidate this function (see Rating Plugin, Rating model, Ajax controller, getRatingWidget).
-     *
-     * @return string
-     */
-    protected function _getRemoteIP()
-    {
-        $privacy = get_option('rating_privacy');
-        if ($privacy == 'anonymous') {
-            return '';
-        }
-
-        // Check if user is behind nginx.
-        $ip = isset($_SERVER['HTTP_X_REAL_IP'])
-            ? $_SERVER['HTTP_X_REAL_IP']
-            : $_SERVER['REMOTE_ADDR'];
-
-        return $privacy == 'clear'
-            ? $ip
-            : md5($ip);
-    }
 }

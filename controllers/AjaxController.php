@@ -44,9 +44,7 @@ class Rating_AjaxController extends Omeka_Controller_AbstractActionController
         // User, record and score are checked, so process rating.
         try {
             // Check if a rating exists for the user or visitor (same id or ip).
-            $user = current_user();
-            $ip = $this->_getRemoteIP();
-            $rating = get_db()->getTable('Rating')->findByRecordAndUserOrIP($record, $user, $ip);
+            $rating = get_db()->getTable('Rating')->findByRecordAndCurrentUserOrIP($record);
             if (!$rating) {
                 $rating = new Rating;
                 $rating->setRecord($record);
@@ -155,29 +153,5 @@ class Rating_AjaxController extends Omeka_Controller_AbstractActionController
             }
         }
         return $score;
-    }
-
-    /**
-     * Get remote ip address. This check respects privacy settings.
-     *
-     * @todo Consolidate this function (see Rating Plugin, Rating model, Ajax controller, getRatingWidget).
-     *
-     * @return string
-     */
-    protected function _getRemoteIP()
-    {
-        $privacy = get_option('rating_privacy');
-        if ($privacy == 'anonymous') {
-            return '';
-        }
-
-        // Check if user is behind nginx.
-        $ip = isset($_SERVER['HTTP_X_REAL_IP'])
-            ? $_SERVER['HTTP_X_REAL_IP']
-            : $_SERVER['REMOTE_ADDR'];
-
-        return $privacy == 'clear'
-            ? $ip
-            : md5($ip);
     }
 }

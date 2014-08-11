@@ -54,6 +54,19 @@ class Table_Rating extends Omeka_Db_Table
     }
 
     /**
+     * Find the rating of record of the current user by id or ip (exclusive).
+     *
+     * @param Record|array $record If array, contains record type and record id.
+     * @return Rating|null.
+     */
+    public function findByRecordAndCurrentUserOrIP($record)
+    {
+        $user = current_user();
+        $ip = get_view()->rating()->getRemoteIp();
+        return $this->findByRecordAndUserOrIP();
+    }
+
+    /**
      * Get the average of all scores of the record.
      *
      * @param Record|array $record If array, contains record type and record id.
