@@ -90,7 +90,7 @@
                     p2 = (p2 == null) ? itemdata('min') : Math.max(itemdata('min'), Math.min(itemdata('max'), p2));
                 }
                 if (itemdata('backingfld')) {
-                    //if we have a backing field, check which fields we should update. 
+                    //if we have a backing field, check which fields we should update.
                     //In case of input[type=range], although we did read its attributes even in browsers that don't support it (using fld.attr())
                     //we only update it in browser that support it (&& fld[0].min only works in supporting browsers), not only does it save us from checking if it is range input type, it also is unnecessary.
                     var fld = $(itemdata('backingfld'));
@@ -105,7 +105,6 @@
 
             //init rateit plugin
             if (!itemdata('init')) {
-
                 //get our values, either from the data-* html5 attribute or from the options.
                 itemdata('min', isNaN(itemdata('min')) ? options.min : itemdata('min'));
                 itemdata('max', isNaN(itemdata('max')) ? options.max : itemdata('max'));
@@ -146,7 +145,7 @@
                         }
                     }
                     else {
-                        //if it is not a select box, we can get's it's value using the val function. 
+                        //if it is not a select box, we can get's it's value using the val function.
                         //If it is a selectbox, we always get a value (the first one of the list), even if it was not explicity set.
                         itemdata('value', fld.val());
                     }
@@ -167,7 +166,7 @@
 
                 itemdata('init', JSON.parse(JSON.stringify(item.data()))); //cheap way to create a clone
             }
-            //resize the height of all elements, 
+            //resize the height of all elements,
             item.find('.rateit-selected, .rateit-hover').height(itemdata('starheight'));
 
             //set the range element to fit all the stars.

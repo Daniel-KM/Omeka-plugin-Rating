@@ -19,12 +19,12 @@ foreach ($display as $format):
             } ?>
     <div class="rateit-myrate">
         <span><?php echo __('My Rate:');  ?></span>
-        <span <?php echo $attributes; ?> data-rateit-step="0.01" class="rateit"></span>
+        <span <?php echo $attributes; ?> data-rateit-step="0.01" class="rateit rateit-myscore"></span>
     </div>
         <?php break;
 
         case 'score text': ?>
-    <div class="rateit-score rateit-text"><?php
+    <div class="rateit-score"><?php
         echo __('Score: %s', '<span class="rateit-average">' . $average_score . '</span>');
     ?><br /><?php
         echo __('Rates: %s', '<span class="rateit-count">' . $count_ratings . '</span>');
@@ -32,16 +32,17 @@ foreach ($display as $format):
         <?php break;
 
         case 'my rate text': ?>
-    <div class="rateit-myrate rateit-text"><?php
+    <div class="rateit-myrate"><?php
         if ($rating) :
             if (is_null($rating->score)):
-                echo __('My Rate: %s', __('Cancelled'));
+                $myscore = __('Cancelled');
             else:
-                echo __('My Rate: %s', $rating->score);
+                $myscore = $rating->score;
             endif;
         else:
-                echo __('My Rate: Not rated');
+                $myscore = __('Not rated');
         endif;
+        echo __('My Rate: %s', '<span class="rateit-myscore">' . $myscore . '</span>');
     ?></div>
         <?php break;
 

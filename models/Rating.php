@@ -22,6 +22,11 @@ class Rating extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_In
         'Record' => 'getRecord',
     );
 
+    protected function _initializeMixins()
+    {
+        $this->_mixins[] = new Mixin_Owner($this);
+    }
+
     /**
      * Get the record object.
      *
@@ -29,7 +34,10 @@ class Rating extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_In
      */
     public function getRecord()
     {
-        return $this->getTable($this->record_type)->find($this->record_id);
+        // Manage the case where record type has been removed.
+        if (class_exists($this->record_type)) {
+            return $this->getTable($this->record_type)->find($this->record_id);
+        }
     }
 
     /**
@@ -95,7 +103,7 @@ class Rating extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_In
     /**
      * Get remote ip address. This check respects privacy settings.
      *
-     * @todo Consolidate this function (see Rating Plugin, Rating model, Ajax controller, getRatingWidget).
+     * @todo Consolidate this function (see Rating model, Ajax controller, getRatingWidget).
      *
      * @return string
      */

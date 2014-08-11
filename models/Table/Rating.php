@@ -51,7 +51,7 @@ class Table_Rating extends Omeka_Db_Table
 
         $result = $this->findBy($params, 1);
         return $result ? reset($result) : null;
-}
+    }
 
     /**
      * Get the average of all scores of the record.
@@ -257,5 +257,5 @@ class Table_Rating extends Omeka_Db_Table
             'record_type' => $recordType,
             'record_id' => $recordId,
         );
-     }
+    }
 }

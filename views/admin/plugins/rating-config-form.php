@@ -64,7 +64,7 @@
         </div>
     </div>
 </fieldset>
-<fieldset id="fieldset-privacy"><legend><?php echo __('Privacy'); ?></legend>
+<fieldset id="fieldset-rating-privacy"><legend><?php echo __('Privacy'); ?></legend>
     <div class="field">
         <div class="two columns alpha">
             <label><?php echo __("Level of Privacy"); ?></label>
@@ -80,7 +80,8 @@
                 )); ?>
             <p class="explanation">
                 <?php echo __('Choose the level of privacy (default: hashed IP).')
-                . ' ' . __('If anonymous, no check will be done when an unidentified visitor rates a record multiple times.');
+                . ' ' . __('If anonymous, no check will be done when an unidentified visitor rates a record multiple times.')
+                . ' ' . __('A change applies only to new ratings.');
                 ?>
             </p>
         </div>

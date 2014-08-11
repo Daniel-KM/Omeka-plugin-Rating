@@ -78,7 +78,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
             `record_type` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
             `record_id` int(10) unsigned NOT NULL,
             `score` decimal(5, 2) unsigned NULL,
-            `user_id` int(11) DEFAULT NULL,
+            `user_id` int(10) DEFAULT NULL,
             `ip` tinytext COLLATE utf8_unicode_ci NOT NULL,
             `user_agent` tinytext COLLATE utf8_unicode_ci,
             `added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -307,29 +307,5 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         $html .= js_tag('RateIt/jquery.rateit.min');
 
         return $html;
-    }
-
-    /**
-     * Get remote ip address. This check respects privacy settings.
-     *
-     * @todo Consolidate this function (see Rating Plugin, Rating model, Ajax controller, getRatingWidget).
-     *
-     * @return string
-     */
-    protected function _getRemoteIP()
-    {
-        $privacy = get_option('rating_privacy');
-        if ($privacy == 'anonymous') {
-            return '';
-        }
-
-        // Check if user is behind nginx.
-        $ip = isset($_SERVER['HTTP_X_REAL_IP'])
-            ? $_SERVER['HTTP_X_REAL_IP']
-            : $_SERVER['REMOTE_ADDR'];
-
-        return $privacy == 'clear'
-            ? $ip
-            : md5($ip);
     }
 }
