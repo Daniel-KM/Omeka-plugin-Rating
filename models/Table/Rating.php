@@ -14,13 +14,7 @@ class Table_Rating extends Omeka_Db_Table
      */
     public function findByRecord($record)
     {
-        $params = $this->_getParamsFromRecord($record);
-        if (empty($params)) {
-            return;
-        }
-
-        $result = $this->findBy($params);
-        return $result;
+        return $this->findBy(array('record' => $record));
     }
 
     /**
@@ -33,10 +27,8 @@ class Table_Rating extends Omeka_Db_Table
      */
     public function findByRecordAndUserOrIP($record, $user = null, $ip = null)
     {
-        $params = $this->_getParamsFromRecord($record);
-        if (empty($params)) {
-            return;
-        }
+        $params = array();
+        $params['record'] = $record;
 
         if ($user) {
             $params['user_id'] = is_object($user) ? $user->id : (integer) $user;
@@ -75,10 +67,7 @@ class Table_Rating extends Omeka_Db_Table
      */
     public function getAverageScore($record)
     {
-        $params = $this->_getParamsFromRecord($record);
-        if (empty($params)) {
-            return;
-        }
+        $params = get_view()->rating()->checkAndPrepareRecord($record);
 
         $db = get_db();
         $sql = "
@@ -88,11 +77,7 @@ class Table_Rating extends Omeka_Db_Table
             AND record_id = ?
             AND score IS NOT NULL
         ";
-        $bind = array(
-            $params['record_type'],
-            $params['record_id'],
-        );
-        $result = $db->fetchOne($sql, $bind);
+        $result = $db->fetchOne($sql, $params);
 
         return $result;
     }
@@ -106,10 +91,7 @@ class Table_Rating extends Omeka_Db_Table
      */
     public function getCountRatings($record)
     {
-        $params = $this->_getParamsFromRecord($record);
-        if (empty($params)) {
-            return;
-        }
+        $params = get_view()->rating()->checkAndPrepareRecord($record);
 
         $db = get_db();
         $sql = "
@@ -119,11 +101,7 @@ class Table_Rating extends Omeka_Db_Table
             AND record_id = ?
             AND score IS NOT NULL
         ";
-        $bind = array(
-            $params['record_type'],
-            $params['record_id'],
-        );
-        $result = $db->fetchOne($sql, $bind);
+        $result = $db->fetchOne($sql, $params);
 
         return $result;
     }
@@ -165,39 +143,6 @@ class Table_Rating extends Omeka_Db_Table
         return $this->findBy($params);
     }
 
-    /**
-     * Find anonymous ratings.
-     *
-     * @return array of ratings.
-     */
-    public function findByAnonymous()
-    {
-        $params = array(
-            'user_id' => 0,
-        );
-        return $this->findBy($params);
-    }
-
-    /**
-     * Filter ratings by record.
-     *
-     * @todo As Omeka, manages only items.
-     *
-     * @see self::applySearchFilters()
-     * @param Omeka_Db_Select
-     * @param Record|array $record If array, contains record type and record id.
-     */
-    public function filterByRecord($select, $record)
-    {
-        $params = $this->_getParamsFromRecord($record);
-        if (empty($params)) {
-            return;
-        }
-
-        $alias = $this->getTableAlias();
-        $select->where($alias . '.record_type = ?', $params['record_type']);
-        $select->where($alias . '.record_id = ?', $params['record_id']);
-    }
 
     /**
      * @param Omeka_Db_Select
@@ -229,46 +174,32 @@ class Table_Rating extends Omeka_Db_Table
     }
 
     /**
-     * Helper to get params from a record.
+     * Filter ratings by record.
      *
-     * This allows record to be an object or an array. This is useful to avoid
-     * to fetch a record when it's not needed, in particular when it's called
-     * from the theme.
+     * @todo As Omeka, manages only items.
      *
-     * Recommended forms are object and associative array with 'record_type'
-     * and 'record_id' as keys.
-     *
-     * @return null|array Associatie array with record type and record id.
+     * @see self::applySearchFilters()
+     * @param Omeka_Db_Select
+     * @param Record|array $record If array, contains record type and record id.
      */
-    protected function _getParamsFromRecord($record)
+    public function filterByRecord($select, $record)
     {
-        if (is_object($record)) {
-            $recordType = get_class($record);
-            $recordId = $record->id;
-        }
-        elseif (is_array($record)) {
-            if (isset($record['record_type']) && isset($record['record_type'])) {
-                $recordType = $record['record_type'];
-                $recordId = $record['record_id'];
-            }
-            elseif (count($record) == 1) {
-                $recordId = reset($record);
-                $recordType = key($record);
-            }
-            elseif (count($record) == 2) {
-                $recordType = array_shift($record);
-                $recordId = array_shift($record);
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return null;
-        }
-        return array(
-            'record_type' => $recordType,
-            'record_id' => $recordId,
+        $params = get_view()->rating()->checkAndPrepareRecord($record);
+        $alias = $this->getTableAlias();
+        $select->where($alias . '.record_type = ?', $params['record_type']);
+        $select->where($alias . '.record_id = ?', $params['record_id']);
+    }
+
+    /**
+     * Find anonymous ratings.
+     *
+     * @return array of ratings.
+     */
+    public function findByAnonymous()
+    {
+        $params = array(
+            'user_id' => 0,
         );
+        return $this->findBy($params);
     }
 }

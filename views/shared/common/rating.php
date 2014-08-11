@@ -13,7 +13,7 @@ foreach ($display as $format):
         case 'score visual': ?>
     <div class="rateit-score">
         <span <?php
-            $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', get_class($record), $record->id);
+            $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', $record['record_type'], $record['record_id']);
             echo $attributes; ?> data-rateit-value="<?php echo $average_score; ?>" data-rateit-readonly="true" class="rateit rateit-average"></span>
         <span><?php echo __('(Rates: %s)', '</span><span class="rateit-count">' . $count_ratings . '</span><span>'); ?></span>
     </div>
@@ -39,7 +39,7 @@ foreach ($display as $format):
         <?php break;
 
         case 'rate visual':
-            $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', get_class($record), $record->id);
+            $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', $record['record_type'], $record['record_id']);
             if ($rating) {
                 $attributes .= $is_current_user
                     ? sprintf('data-rateit-value="%s" data-rateit-ispreset="true" ', $rating->score)

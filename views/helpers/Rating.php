@@ -68,8 +68,8 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
     public function widget($record, $user = null, $display = array())
     {
         // Check and get record.
-        $record = $this->_checkAndGetRecord($record);
-        if (empty($record)) {
+        $record = $this->checkAndPrepareRecord($record);
+        if (empty($record['record_type']) || empty($record['record_id'])) {
             return '';
         }
 
@@ -117,23 +117,24 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
     }
 
     /**
-     * Helper to allow record param to be an object or an array.
+     * Helper to get params from a record. If no record, return empty record.
      *
-     * This is useful to avoid to fetch a record when it's not needed, in
-     * particular when it's called from the theme.
+     * This allows record to be an object or an array. This is useful to avoid
+     * to fetch a record when it's not needed, in particular when it's called
+     * from the theme.
      *
      * Recommended forms are object and associative array with 'record_type'
      * and 'record_id' as keys.
      *
-     * @return null|Record
+     * @return array Associatie array with record type and record id.
      */
-    protected function _checkAndGetRecord($record)
+    public function checkAndPrepareRecord($record)
     {
         if (is_object($record)) {
-            return $record;
+            $recordType = get_class($record);
+            $recordId = $record->id;
         }
-
-        if (is_array($record)) {
+        elseif (is_array($record)) {
             if (isset($record['record_type']) && isset($record['record_type'])) {
                 $recordType = $record['record_type'];
                 $recordId = $record['record_id'];
@@ -147,13 +148,23 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
                 $recordId = array_shift($record);
             }
             else {
-                return null;
+                return array(
+                    'record_type' => '',
+                    'record_id' => 0,
+                );
             }
-            return get_record_by_id($recordType, $recordId);
         }
-
-        return null;
-     }
+        else {
+            return array(
+                'record_type' => '',
+                'record_id' => 0,
+            );
+        }
+        return array(
+            'record_type' => $recordType,
+            'record_id' => $recordId,
+        );
+    }
 
     /**
      * Get remote ip address. This check respects privacy settings.
