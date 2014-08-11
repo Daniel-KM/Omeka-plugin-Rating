@@ -76,6 +76,9 @@
                 array(
                     'anonymous' => __('Anonymous'),
                     'hashed' => __('Hashed IP'),
+                    'partial_1' => __('Partial IP (first hex)'),
+                    'partial_2' => __('Partial IP (first 2 hexs)'),
+                    'partial_3' => __('Partial IP (first 3 hexs)'),
                     'clear' => __('Clear IP'),
                 )); ?>
             <p class="explanation">

@@ -6,8 +6,6 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
 {
     protected $_table;
 
-    private $_ratings = array();
-
     /**
      * Load the hit table one time only.
      */
@@ -47,6 +45,27 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
         switch ($privacy) {
             case 'clear': return $ip;
             case 'hashed': return md5($ip);
+            case 'partial_3':
+                $partial = explode('.', $ip);
+                if (isset($partial[3])) {
+                    unset($partial[3]);
+                }
+                return implode('.', $partial);
+            case 'partial_2':
+                $partial = explode('.', $ip);
+                if (isset($partial[3])) {
+                    unset($partial[3]);
+                    unset($partial[2]);
+                }
+                return implode('.', $partial);
+            case 'partial_3':
+                $partial = explode('.', $ip);
+                if (isset($partial[3])) {
+                    unset($partial[3]);
+                    unset($partial[2]);
+                    unset($partial[1]);
+                }
+                return implode('.', $partial);
         }
     }
 }
