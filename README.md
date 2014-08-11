@@ -55,7 +55,7 @@ queue_css_file('rating');
 queue_js_file('RateIt/jquery.rateit.min');
 
 // Anywhere in the page. Can be called multiple times with different records.
-echo $this->getRatingWidget($record, $display);
+echo $this->rating()->widget($record, $display);
 
 // Anywhere in the page after the last rating widget.
 echo common('rating-js');

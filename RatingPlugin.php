@@ -295,14 +295,16 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
             return;
         }
 
+        $html = '';
+
         // Get display values.
         $display = isset($args['display'])
             ? array_filter(array_map('trim', explode(',', $args['display'])))
             : array();
 
         // Add css and javascript to widget.
-        $html = '<link rel="stylesheet" type="text/css" href="' . html_escape(src('rating', 'css', 'css')) . '">';
-        $html .= $view->getRatingWidget($record, $display);
+        $html .= '<link rel="stylesheet" type="text/css" href="' . html_escape(src('rating', 'css', 'css')) . '">';
+        $html .= $view->rating()->widget($record, $display);
         $html .= common('rating-js');
         $html .= js_tag('RateIt/jquery.rateit.min');
 
