@@ -39,7 +39,7 @@ class Table_Rating extends Omeka_Db_Table
         }
 
         if ($user) {
-            $params['user_id'] = is_object($user) ? $user->id : $user;
+            $params['user_id'] = is_object($user) ? $user->id : (integer) $user;
         }
         elseif ($ip) {
             $params['user_id'] = 0;
@@ -63,7 +63,7 @@ class Table_Rating extends Omeka_Db_Table
     {
         $user = current_user();
         $ip = get_view()->rating()->getRemoteIp();
-        return $this->findByRecordAndUserOrIP();
+        return $this->findByRecordAndUserOrIP($record, $user, $ip);
     }
 
     /**
@@ -152,7 +152,7 @@ class Table_Rating extends Omeka_Db_Table
         $params = array();
 
         if ($user) {
-            $params['user_id'] = is_object($user) ? $user->id : $user;
+            $params['user_id'] = is_object($user) ? $user->id : (integer) $user;
         }
         elseif ($ip) {
             $params['user_id'] = 0;

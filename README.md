@@ -44,7 +44,7 @@ The plugin will add the rating widget automatically on `items/show` and
 fire_plugin_hook('public_items_show', array('view' => $this, 'item' => $item));
 ```
 
-* Helper
+* Helpers
 
 If you need more flexibility, in particular for records other than items
 (collections, files, exhibits, exhibit pages, simple pages), you can use helper:
@@ -66,25 +66,35 @@ get a lower code, in particular in browse pages. `$display` is an ordered array
 that contains parameters to choose the type of widget (see below). Default is to
 show the average score of the record.
 
+If you just need the average score or the specific rate of a user, use:
+
+```php
+echo $this->rating()->score($record, $user);
+```
+
 * Shortocodes
 
 [Shortcodes] are supported (Omeka 2.2 or above).
 
 ```
-[rating record_type='Item' record_id=1 display="score text, my rate"]
+[rating record_type='Item' record_id=1]
+[rating record_type='Item' record_id=1 display="score text, my rate visual"]
 ```
 
 Options are:
-- record_type (required): an Omeka record type , e.g. "Item" or "Collection".
-- record_id (required): the identifier of the record.
-- display: ordered comma separated options to choose the form of the widget:
-    - "score": visual average score and count of ratings for the record.
-    - "score text": same info, but without visual effect.
-    - "my rate": widget that allows user to rate the record (if allowed).
-    - "my rate text": same info, but without visual effect.
+- `record_type` (required): an Omeka record type , e.g. "Item" or "Collection".
+- `record_id` (required): the identifier of the record.
+- `display` (optional): ordered comma separated options to choose the
+form of the widget:
+  - "score": simple value without css (default, exclusive from other ones).
+  - "score visual": visual average score and count of ratings for the record.
+  - "score text": same info, but without visual effect.
+  - "my rate": simple value without css (exclusive from other ones).
+  - "my rate visual": widget that allows user to rate the record (if allowed).
+  - "my rate text": same info, but without visual effect.
 
 As the helper, rights are automatically managed. Javascript and css are added
-automatically too.
+automatically too. Visual and text results can be themed.
 
 
 Warning

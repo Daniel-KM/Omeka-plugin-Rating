@@ -3,7 +3,7 @@
 foreach ($display as $format):
     switch ($format):
 
-        case 'score': ?>
+        case 'score visual': ?>
     <div class="rateit-score">
         <span <?php
             $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', get_class($record), $record->id);
@@ -12,7 +12,7 @@ foreach ($display as $format):
     </div>
         <?php break;
 
-        case 'my rate':
+        case 'my rate visual':
             $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', get_class($record), $record->id);
             if ($rating) {
                 $attributes .= sprintf('data-rateit-value="%s" data-rateit-ispreset="true" ', $rating->score);
