@@ -25,45 +25,47 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
     }
 
     /**
-     * Get a user rate or the average score of a record as a simple value.
+     * Get the average score of a record as a simple value.
      *
      * @param Record|array $record If array, contains record type and record id.
-     * @param User|integer $user. If null, average score.
      *
-     * @return integer.
+     * @return integer|null
      */
-    public function score($record, $user = null)
+    public function score($record)
     {
-        $record = $this->_checkAndGetRecord($record);
-        if (empty($record)) {
-            return '';
+        return $this->_table->getAverageScore($record);
+    }
+
+    /**
+     * Get a user rate for a record as a simple value.
+     *
+     * @param Record|array $record If array, contains record type and record id.
+     * @param User|integer $user. If null, current user.
+     *
+     * @return integer|null
+     */
+    public function rate($record, $user = null)
+    {
+        if (empty($user)) {
+            $user = current_user();
         }
 
-        $result = 0;
+        $rating = $this->_table->findByRecordAndUserOrIP($record, $user);
 
-        if (is_null($user)) {
-            $result = $this->_table->getAverageScore($record);
-        }
-        else {
-            $rating = $this->_table->findByRecordAndUserOrIP($record, $user);
-            if ($rating) {
-                $result = $rating->score;
-            }
-        }
-
-        return $result;
+        return $rating ? $rating->score : null;
     }
 
     /**
      * Get the rating widget, according to current user.
      *
      * @param Record|array $record If array, contains record type and record id.
+     * @param User|integer $user. If null, current user.
      * @param array $display Options to display the widget (default depends of
      * user).
      *
      * @return string Html code from the theme.
      */
-    public function widget($record, $display = array())
+    public function widget($record, $user = null, $display = array())
     {
         // Check and get record.
         $record = $this->_checkAndGetRecord($record);
@@ -71,23 +73,31 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
             return '';
         }
 
+        if (empty($user)) {
+            $user = current_user();
+            $isCurrentUser = true;
+        }
+        else {
+            $isCurrentUser = $this->_isCurrentUser($user);
+        }
+
         if (in_array('score', $display)) {
             return $this->score($record);
         }
-        elseif (in_array('my rate', $display)) {
-            return $this->score($record, current_user());
+        elseif (in_array('rate', $display)) {
+            return $this->score($record, $user);
         }
 
          // Set default display if needed.
         if (empty($display)) {
             $display = is_allowed('Rating_Rating', 'add')
-                ? array('score text', 'my rate visual')
+                ? array('score text', 'rate visual')
                 : array('score visual');
         }
         // Check rights to rate.
         else {
             if (!is_allowed('Rating_Rating', 'add')) {
-                $display = array_diff($display, array('my rate visual', 'my rate text'));
+                $display = array_diff($display, array('rate visual', 'rate text'));
             }
         }
 
@@ -100,6 +110,7 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
             // This values are set to avoid multiple queries.
             'average_score' => $this->_table->getAverageScore($record),
             'count_ratings' => $this->_table->getCountRatings($record),
+            'is_current_user' => $isCurrentUser,
         );
 
         return $this->view->partial('common/rating.php', $params);
@@ -187,5 +198,27 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
                 }
                 return implode('.', $partial);
         }
+    }
+
+    /**
+     * Check if a user is the current one.
+     *
+     * @param User|integer $user User or user id.
+     *
+     * @return boolean True if the user is the current one, else false.
+     */
+    protected function _isCurrentUser($user)
+    {
+        if (empty($user)) {
+            return false;
+        }
+
+        $currentUser = current_user();
+        if (empty($currentUser)) {
+            return false;
+        }
+
+        $userId = is_object($user) ? $user->id : (integer) $user;
+        return ($currentUser->id == $userId);
     }
 }

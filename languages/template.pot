@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 02:47+0200\n"
+"POT-Creation-Date: 2014-08-12 10:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Level of Privacy"
 msgstr ""
 
-#: views/admin/plugins/rating-config-form.php:77 models/Rating.php:150
+#: views/admin/plugins/rating-config-form.php:77 models/Rating.php:134
 msgid "Anonymous"
 msgstr ""
 
@@ -74,52 +74,77 @@ msgid "Hashed IP"
 msgstr ""
 
 #: views/admin/plugins/rating-config-form.php:79
-msgid "Clear IP"
+msgid "Partial IP (first hex)"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:80
+msgid "Partial IP (first 2 hexs)"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:81
+msgid "Partial IP (first 3 hexs)"
 msgstr ""
 
 #: views/admin/plugins/rating-config-form.php:82
+msgid "Clear IP"
+msgstr ""
+
+#: views/admin/plugins/rating-config-form.php:85
 msgid "Choose the level of privacy (default: hashed IP)."
 msgstr ""
 
-#: views/admin/plugins/rating-config-form.php:83
+#: views/admin/plugins/rating-config-form.php:86
 msgid ""
 "If anonymous, no check will be done when an unidentified visitor rates a "
 "record multiple times."
 msgstr ""
 
-#: views/shared/common/rating.php:11
-#, php-format
-msgid "(Rates: %s)"
+#: views/admin/plugins/rating-config-form.php:87
+msgid "A change applies only to new ratings."
 msgstr ""
 
-#: views/shared/common/rating.php:21
-msgid "My Rate:"
-msgstr ""
-
-#: views/shared/common/rating.php:28
+#: views/shared/common/rating.php:7
 #, php-format
 msgid "Score: %s"
 msgstr ""
 
-#: views/shared/common/rating.php:30
+#: views/shared/common/rating.php:9
 #, php-format
 msgid "Rates: %s"
 msgstr ""
 
-#: views/shared/common/rating.php:38
+#: views/shared/common/rating.php:18
+#, php-format
+msgid "(Rates: %s)"
+msgstr ""
+
+#: views/shared/common/rating.php:26
 msgid "Cancelled"
 msgstr ""
 
-#: views/shared/common/rating.php:38 views/shared/common/rating.php:40
+#: views/shared/common/rating.php:31
+msgid "Not rated"
+msgstr ""
+
+#: views/shared/common/rating.php:34
 #, php-format
 msgid "My Rate: %s"
 msgstr ""
 
-#: views/shared/common/rating.php:43
-msgid "My Rate: Not rated"
+#: views/shared/common/rating.php:36
+#, php-format
+msgid "User Rate: %s"
 msgstr ""
 
-#: controllers/AjaxController.php:67
+#: views/shared/common/rating.php:49
+msgid "My Rate:"
+msgstr ""
+
+#: views/shared/common/rating.php:49
+msgid "User Rate:"
+msgstr ""
+
+#: controllers/AjaxController.php:65
 msgid "Error. Retry later."
 msgstr ""
 
@@ -127,6 +152,6 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: models/Rating.php:133
+#: models/Rating.php:117
 msgid "Record is not correct."
 msgstr ""

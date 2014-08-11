@@ -2,6 +2,13 @@
 <?php
 foreach ($display as $format):
     switch ($format):
+        case 'score text': ?>
+    <div class="rateit-score"><?php
+        echo __('Score: %s', '<span class="rateit-average">' . $average_score . '</span>');
+    ?><br /><?php
+        echo __('Rates: %s', '<span class="rateit-count">' . $count_ratings . '</span>');
+    ?></div>
+        <?php break;
 
         case 'score visual': ?>
     <div class="rateit-score">
@@ -12,40 +19,37 @@ foreach ($display as $format):
     </div>
         <?php break;
 
-        case 'my rate visual':
+        case 'rate text': ?>
+    <div class="rateit-rate"><?php
+            if ($rating) :
+                if (is_null($rating->score)):
+                    $userscore = __('Cancelled');
+                else:
+                    $userscore = $rating->score;
+                endif;
+            else:
+                $userscore = __('Not rated');
+            endif;
+            if ($is_current_user):
+                echo __('My Rate: %s', '<span class="rateit-userscore">' . $userscore . '</span>');
+            else:
+                echo __('User Rate: %s', '<span class="rateit-userscore">' . $userscore . '</span>');
+            endif;
+    ?></div>
+        <?php break;
+
+        case 'rate visual':
             $attributes = sprintf('data-record_type="%s" data-record_id="%s" ', get_class($record), $record->id);
             if ($rating) {
-                $attributes .= sprintf('data-rateit-value="%s" data-rateit-ispreset="true" ', $rating->score);
+                $attributes .= $is_current_user
+                    ? sprintf('data-rateit-value="%s" data-rateit-ispreset="true" ', $rating->score)
+                    : sprintf('data-rateit-value="%s" data-rateit-readonly="true" ', $rating->score);
             } ?>
-    <div class="rateit-myrate">
-        <span><?php echo __('My Rate:');  ?></span>
-        <span <?php echo $attributes; ?> data-rateit-step="0.01" class="rateit rateit-myscore"></span>
+    <div class="rateit-rate">
+        <span><?php echo $is_current_user ? __('My Rate:') : __('User Rate:'); ?></span>
+        <span <?php echo $attributes; ?>data-rateit-step="0.01" class="rateit rateit-userscore"></span>
     </div>
         <?php break;
-
-        case 'score text': ?>
-    <div class="rateit-score"><?php
-        echo __('Score: %s', '<span class="rateit-average">' . $average_score . '</span>');
-    ?><br /><?php
-        echo __('Rates: %s', '<span class="rateit-count">' . $count_ratings . '</span>');
-    ?></div>
-        <?php break;
-
-        case 'my rate text': ?>
-    <div class="rateit-myrate"><?php
-        if ($rating) :
-            if (is_null($rating->score)):
-                $myscore = __('Cancelled');
-            else:
-                $myscore = $rating->score;
-            endif;
-        else:
-                $myscore = __('Not rated');
-        endif;
-        echo __('My Rate: %s', '<span class="rateit-myscore">' . $myscore . '</span>');
-    ?></div>
-        <?php break;
-
     endswitch;
 endforeach; ?>
 </div>

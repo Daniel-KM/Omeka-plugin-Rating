@@ -197,7 +197,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
 
         $html = '<div class="panel">';
         $html .= '<h4>' . __('Rating') . '</h4>';
-        $html .= $view->getRatingWidget($item, array('score visual', 'my rate visual'));
+        $html .= $view->rating()->widget($item, null, array('score visual', 'rate visual'));
         $html .= '</div>';
         $html .= $view->partial('common/rating-js.php');
 
@@ -209,7 +209,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         $view = $args['view'];
         $item = $args['item'];
 
-        echo $view->getRatingWidget($item, array('score visual'));
+        echo $view->rating()->widget($item, null, array('score visual'));
     }
 
     public function hookAdminItemsBrowseDetailedEach($args)
@@ -217,7 +217,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         $view = $args['view'];
         $item = $args['item'];
 
-        echo $view->getRatingWidget($item, array('my rate visual'));
+        echo $view->rating()->widget($item, null, array('rate visual'));
     }
 
     /**
@@ -238,9 +238,9 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
 
         if (get_option('rating_add_to_items_show')) {
             $display = is_allowed('Rating_Rating', 'add')
-                ? array('score text', 'my rate visual')
+                ? array('score text', 'rate visual')
                 : array('score visual');
-            echo $view->getRatingWidget($item, $display);
+            echo $view->rating()->widget($item, null, $display);
             echo $view->partial('common/rating-js.php');
         }
     }
@@ -251,7 +251,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['item'];
 
         if (get_option('rating_add_to_items_browse')) {
-            echo $view->getRatingWidget($item, array('score visual'));
+            echo $view->rating()->widget($item, null, array('score visual'));
         }
     }
 
@@ -286,32 +286,40 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function shortcodeRating($args, $view)
     {
-        // Check required arguments.
-        if (!isset($args['record_type']) || !isset($args['record_id'])) {
-            return;
+        $html = '';
+
+        // Check required arguments
+        if (!isset($args['record_id'])) {
+            return $html;
         }
-        $record = get_record_by_id($args['record_type'], $args['record_id']);
+        $recordId = $args['record_id'];
+
+        $recordType = isset($args['record_type']) ? $args['record_type'] : 'Item';
+
+        // Quick check.
+        $record = get_record_by_id($recordType, $recordId);
         if (!$record) {
-            return;
+            return $html;
         }
 
-        $html = '';
+        $user = isset($args['user']) ? $args['user'] : current_user();
 
         // Get display values.
         $display = isset($args['display'])
             ? array_filter(array_map('trim', explode(',', $args['display'])))
-            : array('score');
+            // Default depends on user.
+            : ($user ? array('rate') : array('score'));
 
         if (in_array('score', $display)) {
             $html .= (string) $view->rating()->score($record);
         }
-        elseif (in_array('my rate', $display)) {
-            $html .= (string) $view->rating()->score($record, current_user());
+        elseif (in_array('rate', $display)) {
+            $html .= (string) $view->rating()->rate($record, $user);
         }
         else {
             // Add css and javascript to widget.
             $html .= '<link rel="stylesheet" type="text/css" href="' . html_escape(src('rating', 'css', 'css')) . '">';
-            $html .= $view->rating()->widget($record, $display);
+            $html .= $view->rating()->widget($record, $user, $display);
             $html .= common('rating-js');
             $html .= js_tag('RateIt/jquery.rateit.min');
         }

@@ -55,7 +55,7 @@ queue_css_file('rating');
 queue_js_file('RateIt/jquery.rateit.min');
 
 // Anywhere in the page. Can be called multiple times with different records.
-echo $this->rating()->widget($record, $display);
+echo $this->rating()->widget($record, $user, $display);
 
 // Anywhere in the page after the last rating widget.
 echo common('rating-js');
@@ -69,29 +69,36 @@ show the average score of the record.
 If you just need the average score or the specific rate of a user, use:
 
 ```php
-echo $this->rating()->score($record, $user);
+echo $this->rating()->score($record);
+echo $this->rating()->rate($record, $user);
 ```
 
 * Shortocodes
 
-[Shortcodes] are supported (Omeka 2.2 or above).
+[Shortcodes] are supported (Omeka 2.2 or above). Some illustrative examples:
 
 ```
-[rating record_type='Item' record_id=1]
-[rating record_type='Item' record_id=1 display="score text, my rate visual"]
+[rating record_id=1]
+[rating record_type='Collection' record_id=1 user=1]
+[rating record_type='Item' record_id=1 display="score text, rate visual"]
+[rating record_type='Item' record_id=1 display="rate visual, score text" user=2]
 ```
 
 Options are:
-- `record_type` (required): an Omeka record type , e.g. "Item" or "Collection".
+- `record_type`: an Omeka record type , e.g. "Item" (default) or "Collection".
 - `record_id` (required): the identifier of the record.
+- `user`: allows to get the rate of the specified user. If not set, the current
+user is selected. Not used with score.
 - `display` (optional): ordered comma separated options to choose the
 form of the widget:
-  - "score": simple value without css (default, exclusive from other ones).
+  - "score": raw value without css (default if no user; exclusive from other
+  ones).
+  - "score text": just the score with css.
   - "score visual": visual average score and count of ratings for the record.
-  - "score text": same info, but without visual effect.
-  - "my rate": simple value without css (exclusive from other ones).
-  - "my rate visual": widget that allows user to rate the record (if allowed).
-  - "my rate text": same info, but without visual effect.
+  - "rate": raw value without css (default if user is set; exclusive from other
+  ones).
+  - "rate text": just the rate with css
+  - "rate visual": widget that allows user to rate the record (if allowed).
 
 As the helper, rights are automatically managed. Javascript and css are added
 automatically too. Visual and text results can be themed.
