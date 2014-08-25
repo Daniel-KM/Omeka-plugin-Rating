@@ -73,7 +73,7 @@ echo $this->rating()->score($record);
 echo $this->rating()->rate($record, $user);
 ```
 
-* Shortocodes
+* Shortcodes
 
 [Shortcodes] are supported (Omeka 2.2 or above). Some illustrative examples:
 

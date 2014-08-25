@@ -143,6 +143,18 @@ class Table_Rating extends Omeka_Db_Table
         return $this->findBy($params);
     }
 
+    /**
+     * Find anonymous ratings.
+     *
+     * @return array of ratings.
+     */
+    public function findByAnonymous()
+    {
+        $params = array(
+            'user_id' => 0,
+        );
+        return $this->findBy($params);
+    }
 
     /**
      * @param Omeka_Db_Select
@@ -153,6 +165,7 @@ class Table_Rating extends Omeka_Db_Table
     {
         $alias = $this->getTableAlias();
         $boolean = new Omeka_Filter_Boolean;
+        $genericParams = array();
         foreach ($params as $key => $value) {
             if ($value === null || (is_string($value) && trim($value) == '')) {
                 continue;
@@ -165,8 +178,12 @@ class Table_Rating extends Omeka_Db_Table
                     $this->filterByUser($select, $value, 'user_id');
                     break;
                 default:
-                    parent::applySearchFilters($select, array($key => $value));
+                    $genericParams[$key] = $value;
             }
+        }
+
+        if (!empty($genericParams)) {
+            parent::applySearchFilters($select, $genericParams);
         }
 
         // If we returning the data itself, we need to group by the record id.
@@ -188,18 +205,5 @@ class Table_Rating extends Omeka_Db_Table
         $alias = $this->getTableAlias();
         $select->where($alias . '.record_type = ?', $params['record_type']);
         $select->where($alias . '.record_id = ?', $params['record_id']);
-    }
-
-    /**
-     * Find anonymous ratings.
-     *
-     * @return array of ratings.
-     */
-    public function findByAnonymous()
-    {
-        $params = array(
-            'user_id' => 0,
-        );
-        return $this->findBy($params);
     }
 }
