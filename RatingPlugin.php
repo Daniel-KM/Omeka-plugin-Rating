@@ -106,11 +106,12 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
     /**
      * Shows plugin configuration page.
      */
-    public function hookConfigForm()
+    public function hookConfigForm($args)
     {
-        $view = get_view();
+        $view = $args['view'];
         echo $view->partial(
-            'plugins/rating-config-form.php', array(
+            'plugins/rating-config-form.php',
+            array(
                 'view' => $view,
         ));
     }
@@ -269,8 +270,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAfterDeleteItem($args)
     {
-        $item = $args['item'];
-        $record = $item;
+        $record = $args['record'];
         $ratings = $this->_db->getTable('Rating')->findByRecord($record);
         foreach ($ratings as $rating) {
             $rating->delete();
