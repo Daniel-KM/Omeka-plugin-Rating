@@ -1,6 +1,6 @@
 <?php
 /**
- * Helper to get some public stats.
+ * Helper to get rating.
  */
 class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
 {
@@ -135,7 +135,7 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
             $recordId = $record->id;
         }
         elseif (is_array($record)) {
-            if (isset($record['record_type']) && isset($record['record_type'])) {
+            if (isset($record['record_type']) && isset($record['record_id'])) {
                 $recordType = $record['record_type'];
                 $recordId = $record['record_id'];
             }

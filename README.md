@@ -1,9 +1,6 @@
 Rating (plugin for Omeka)
 =========================
 
-About
------
-
 [Rating] is a plugin for [Omeka] that adds a widget to allow users to rate items
 or other records instantly via Ajax.
 
@@ -116,7 +113,7 @@ roll back if needed.
 Troubleshooting
 ---------------
 
-See online issues on the [Rating issues] page on GitHub.
+See online issues on the [plugin issues] page on GitHub.
 
 
 License
@@ -172,24 +169,25 @@ Contact
 -------
 
 Current maintainers:
+
 * Daniel Berthereau (see [Daniel-KM] on GitHub)
 
 
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2013-2014
+* Copyright Daniel Berthereau, 2013-2015
 * Copyright Gideon Junge, 2013-2014 ([RateIt])
 
 
-[Omeka]: https://omeka.org "Omeka.org"
+[Omeka]: https://omeka.org
 [RateIt]: https://rateit.codeplex.com
 [Rating]: https://github.com/Daniel-KM/Rating
 [Shortcodes]: http://omeka.org/codex/Shortcodes
-[Rating issues]: https://github.com/Daniel-KM/Rating/issues
+[plugin issues]: https://github.com/Daniel-KM/Rating/issues
 [GuestUser]: https://github.com/omeka/plugin-GuestUser
 [CeCILL v2.1]: http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
-[GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html "GNU/GPL v3"
+[GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
 [MIT licence]: http://opensource.org/licenses/MIT

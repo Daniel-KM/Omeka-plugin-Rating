@@ -292,9 +292,10 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
         if (!isset($args['record_id'])) {
             return $html;
         }
-        $recordId = $args['record_id'];
+        $recordId = (integer) $args['record_id'];
 
         $recordType = isset($args['record_type']) ? $args['record_type'] : 'Item';
+        $recordType = ucfirst(strtolower($recordType));
 
         // Quick check.
         $record = get_record_by_id($recordType, $recordId);

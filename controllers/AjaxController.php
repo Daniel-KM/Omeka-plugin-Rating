@@ -44,7 +44,7 @@ class Rating_AjaxController extends Omeka_Controller_AbstractActionController
         // User, record and score are checked, so process rating.
         try {
             // Check if a rating exists for the user or visitor (same id or ip).
-            $rating = get_db()->getTable('Rating')->findByRecordAndCurrentUserOrIP($record);
+            $rating = $this->_helper->db->findByRecordAndCurrentUserOrIP($record);
             if (!$rating) {
                 $rating = new Rating;
                 $rating->setRecord($record);
