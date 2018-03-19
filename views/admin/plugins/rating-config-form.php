@@ -1,10 +1,10 @@
 <fieldset id="fieldset-rating-form"><legend><?php echo __('Rating Widget'); ?></legend>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $view->formLabel('rating_add_to_items_show', __('Add To items/show Page')); ?>
+            <?php echo $this->formLabel('rating_add_to_items_show', __('Add To items/show Page')); ?>
         </div>
         <div class="inputs five columns omega">
-            <?php echo $view->formCheckbox(
+            <?php echo $this->formCheckbox(
                 'rating_add_to_items_show', true,
                 array('checked' => (boolean) get_option('rating_add_to_items_show'))); ?>
             <p class="explanation"><?php echo
@@ -14,10 +14,10 @@
     </div>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $view->formLabel('rating_add_to_items_browse', __('Add To items/browse Page')); ?>
+            <?php echo $this->formLabel('rating_add_to_items_browse', __('Add To items/browse Page')); ?>
         </div>
         <div class="inputs five columns omega">
-            <?php echo $view->formCheckbox(
+            <?php echo $this->formCheckbox(
                 'rating_add_to_items_browse', true,
                 array('checked' => (boolean) get_option('rating_add_to_items_browse'))); ?>
             <p class="explanation"><?php echo
@@ -29,10 +29,10 @@
 <fieldset id="fieldset-rating-rights"><legend><?php echo __('Rights and Roles'); ?></legend>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $view->formLabel('rating_public_allow_rate', __('Allow Public to Rate')); ?>
+            <?php echo $this->formLabel('rating_public_allow_rate', __('Allow Public to Rate')); ?>
         </div>
         <div class="inputs five columns omega">
-            <?php echo $view->formCheckbox(
+            <?php echo $this->formCheckbox(
                 'rating_public_allow_rate', true,
                 array('checked'=>(boolean) get_option('rating_public_allow_rate'))); ?>
             <p class="explanation">
@@ -42,7 +42,7 @@
     </div>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $view->formLabel('rating_add_roles', __('Roles that can Rate')); ?>
+            <?php echo $this->formLabel('rating_add_roles', __('Roles that can Rate')); ?>
         </div>
         <div class="inputs five columns omega">
             <div class="input-block">
@@ -53,7 +53,7 @@
                     echo '<ul>';
                     foreach ($userRoles as $role => $label) {
                         echo '<li>';
-                        echo $view->formCheckbox('rating_add_roles[]', $role,
+                        echo $this->formCheckbox('rating_add_roles[]', $role,
                             array('checked' => in_array($role, $currentRoles) ? 'checked' : ''));
                         echo $label;
                         echo '</li>';

@@ -7,7 +7,7 @@ class Rating_View_Helper_Rating extends Zend_View_Helper_Abstract
     protected $_table;
 
     /**
-     * Load the hit table one time only.
+     * Load the main table one time only.
      */
     public function __construct()
     {

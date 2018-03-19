@@ -139,6 +139,6 @@ class Rating extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_In
 
     public function getResourceId()
     {
-        return 'Rating';
+        return 'Ratings';
     }
 }

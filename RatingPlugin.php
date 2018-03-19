@@ -108,12 +108,10 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookConfigForm($args)
     {
-        $view = $args['view'];
+        $view = get_view();
         echo $view->partial(
-            'plugins/rating-config-form.php',
-            array(
-                'view' => $view,
-        ));
+            'plugins/rating-config-form.php'
+        );
     }
 
     /**
@@ -124,31 +122,35 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookConfig($args)
     {
         $post = $args['post'];
-        foreach (array(
-                'rating_add_roles',
-            ) as $posted) {
-            $post[$posted] = isset($post[$posted])
-                ? serialize($post[$posted])
-                : serialize(array());
-        }
-        foreach ($post as $key => $value) {
-            set_option($key, $value);
+        foreach ($this->_options as $optionKey => $optionValue) {
+            if (in_array($optionKey, array(
+                    'rating_add_roles',
+                ))) {
+               $post[$optionKey] = serialize($post[$optionKey]) ?: serialize(array());
+            }
+            if (isset($post[$optionKey])) {
+                set_option($optionKey, $post[$optionKey]);
+            }
         }
     }
 
     /**
      * Defines the plugin's access control list.
      *
-     * @param object $args
+     * @param array $args
      */
     public function hookDefineAcl($args)
     {
         $acl = $args['acl'];
-        $acl->addResource('Rating_Rating');
-        $acl->allow(null, 'Rating_Rating', array('show', 'add'));
+        $resource = 'Rating_Rating';
+        // TODO This is currently needed for tests for an undetermined reason.
+        if (!$acl->has($resource)) {
+            $acl->addResource($resource);
+        }
+        $acl->allow(null, $resource, array('show', 'add'));
 
         if (get_option('rating_public_allow_rate')) {
-            $acl->allow(null, 'Rating_Rating', array('add'));
+            $acl->allow(null, $resource, array('add'));
         }
         else {
             $roles = unserialize(get_option('rating_add_roles'));
@@ -156,7 +158,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
             // been removed (e.g. GuestUser).
             foreach ($roles as $role) {
                 if ($acl->hasRole($role)) {
-                    $acl->allow($role, 'Rating_Rating', array('add'));
+                    $acl->allow($role, $resource, array('add'));
                 }
             }
         }
