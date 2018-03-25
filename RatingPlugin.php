@@ -126,7 +126,7 @@ class RatingPlugin extends Omeka_Plugin_AbstractPlugin
             if (in_array($optionKey, array(
                     'rating_add_roles',
                 ))) {
-               $post[$optionKey] = serialize($post[$optionKey]) ?: serialize(array());
+                $post[$optionKey] = empty($post[$optionKey]) ? serialize(array()) : serialize($post[$optionKey]);
             }
             if (isset($post[$optionKey])) {
                 set_option($optionKey, $post[$optionKey]);
